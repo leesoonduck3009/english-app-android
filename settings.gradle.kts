@@ -19,5 +19,5 @@ dependencyResolutionManagement {
     }
 }
 
-rootProject.name = "Text_Detection"
+rootProject.name = "SnapLearn"
 include(":app")

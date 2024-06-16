@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/item_fragment_kw"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:background="@drawable/item_keyword"
+    android:gravity="center"
+    android:layout_marginTop="@dimen/_10sdp"
+    android:layout_height="@dimen/_40sdp">
+    <TextView
+        android:id="@+id/tv_keyword_history"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Text 1"
+        android:fontFamily="@font/baloo_bhai_2_medium"
+        android:textColor="@color/black"
+        android:textSize="@dimen/_18sdp"/>
+
+
+</LinearLayout>

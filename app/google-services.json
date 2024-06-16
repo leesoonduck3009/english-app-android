@@ -1,0 +1,48 @@
+{
+  "project_info": {
+    "project_number": "199500990763",
+    "firebase_url": "https://snap-learn-15fac-default-rtdb.firebaseio.com",
+    "project_id": "snap-learn-15fac",
+    "storage_bucket": "snap-learn-15fac.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:199500990763:android:a8a0c0e60f2474fb95dd6e",
+        "android_client_info": {
+          "package_name": "com.example.snaplearn"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "199500990763-vevv2gmkv8a4kuaaul05elq18k7198gm.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.snaplearn",
+            "certificate_hash": "e2333e9ceca4f19254d97e36bcf65d442e337b01"
+          }
+        },
+        {
+          "client_id": "199500990763-05r4ggtkfihcsk93ssv3h91pbu80e59e.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCJiDEx_0PMdXaXd5r5jUvJJY0VANRn5pI"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "199500990763-05r4ggtkfihcsk93ssv3h91pbu80e59e.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
