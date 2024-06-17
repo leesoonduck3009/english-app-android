@@ -48,11 +48,14 @@ public class ResultActivity extends AppCompatActivity {
         if (getIntent().hasExtra("PHOTO_URI")) {
             String photoUriString = getIntent().getStringExtra("PHOTO_URI");
             Uri photoUri = Uri.parse(photoUriString);
-
             // Sử dụng photoUri để hiển thị ảnh trong imageView hoặc thực hiện xử lý khác
+            
             binding.ivResult.setImageURI(photoUri);
         }
         binding.btnBack.setOnClickListener(v->{
+            finish();
+        });
+        binding.btnBackLoading.setOnClickListener(v->{
             finish();
         });
         binding.btnWord1.setOnClickListener(v -> {
@@ -104,5 +107,13 @@ public class ResultActivity extends AppCompatActivity {
         public int getItemCount() {
             return 2;
         }
+    }
+    private void loading(){
+        binding.loadingLayout.setVisibility(View.VISIBLE);
+        binding.mainContentLayout.setVisibility(View.GONE);
+    }
+    private void loadingSuccess(){
+        binding.loadingLayout.setVisibility(View.GONE);
+        binding.mainContentLayout.setVisibility(View.VISIBLE);
     }
 }

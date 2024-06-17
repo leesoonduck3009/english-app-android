@@ -55,7 +55,6 @@ public class ScanActivity extends AppCompatActivity {
         binding.btnBack.setOnClickListener(v -> {
             finish();
         });
-
         binding.btnShowSelect.setOnClickListener(v -> {
             binding.frameSelect.setVisibility(View.VISIBLE);
         });
@@ -103,7 +102,7 @@ public class ScanActivity extends AppCompatActivity {
 
         // Đặt OnClickListener cho btnTakePic
         binding.btnTakePic.setOnClickListener(v -> {
-            if (checkPermissions()) {
+            if (!checkPermissions()) {
                 // Tạo một Intent để mở máy ảnh
                 Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
 
