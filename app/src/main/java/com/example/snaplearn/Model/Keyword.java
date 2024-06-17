@@ -8,6 +8,14 @@ public class Keyword {
     private String engSentence;
     private String vietSentence;
     private String userId;
+    public static final String COLLECTION_NAME = "keyword";
+    public static final String KEY_WORD_ID_FIELD = "keyWordId";
+    public static final String KEY_WORD_TEXT_FIELD = "keyWordText";
+    public static final String ENG_MEANING_FIELD = "engMeaning";
+    public static final String VIET_MEANING_FIELD = "vietMeaning";
+    public static final String ENG_SENTENCE_FIELD = "engSentence";
+    public static final String VIET_SENTENCE_FIELD = "vietSentence";
+    public static final String USER_ID_FIELD = "userId";
     public Keyword(){
 
     }

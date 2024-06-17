@@ -8,6 +8,13 @@ public class Paragraph {
     String paragraphUrl;
     List<Keyword> keywordInParagraph;
     String userId;
+    // Static fields
+    public static final String COLLECTION_NAME = "paragraph";
+    public static final String PARAGRAPH_ID_FIELD = "paragraphId";
+    public static final String PARAGRAPH_TITLE_FIELD = "paragraphTitle";
+    public static final String PARAGRAPH_URL_FIELD = "paragraphUrl";
+    public static final String KEYWORD_IN_PARAGRAPH_FIELD = "keywordInParagraph";
+    public static final String USER_ID_FIELD = "userId";
     private Paragraph(Builder builder) {
         this.paragraphId = builder.paragraphId;
         this.paragraphTittle = builder.paragraphTittle;
