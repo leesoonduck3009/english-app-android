@@ -49,6 +49,7 @@ public class ResultActivity extends AppCompatActivity implements IResultActivity
     private List<Keyword> listKeyword;
     private Paragraph paragraph;
     private Keyword keyword;
+    private byte[] image;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -101,7 +102,7 @@ public class ResultActivity extends AppCompatActivity implements IResultActivity
         if (getIntent().hasExtra("PHOTO_URI")) {
             String photoUriString = getIntent().getStringExtra("PHOTO_URI");
             Uri photoUri = Uri.parse(photoUriString);
-            byte[] image = UriToByte.convertUriToByteArray(getContentResolver(),photoUri);
+            image = UriToByte.convertUriToByteArray(getContentResolver(),photoUri);
             // Sử dụng photoUri để hiển thị ảnh trong imageView hoặc thực hiện xử lý khác
             loading();
             binding.ivResult.setImageURI(photoUri);
@@ -138,7 +139,11 @@ public class ResultActivity extends AppCompatActivity implements IResultActivity
         finish();
     }
 
-        @Override
+    @Override
+    public void onSaveParagraphFail(Exception e) {
+    }
+
+    @Override
     public void onKeywordClick(Keyword keyword) {
             this.keyword = keyword;
             binding.overlay.setVisibility(View.VISIBLE);
@@ -154,7 +159,7 @@ public class ResultActivity extends AppCompatActivity implements IResultActivity
         binding.mainContentLayout.setVisibility(View.VISIBLE);
     }
     private static class ViewPagerAdapter extends FragmentStateAdapter {
-        private Keyword keyword;
+        private Keyword keyword = new Keyword.Builder().setEngSentence("hello").setEngMeaning("hello").setVietSentence("hello").setVietMeaning("hello").build();
         public ViewPagerAdapter(@NonNull FragmentActivity fragmentActivity) {
             super(fragmentActivity);
         }

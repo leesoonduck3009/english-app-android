@@ -8,12 +8,18 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.viewpager2.adapter.FragmentStateAdapter;
 import androidx.viewpager2.widget.ViewPager2;
 
+import android.text.Editable;
+import android.text.TextWatcher;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
 import com.example.snaplearn.Adapter.KeywordAdapter;
+import com.example.snaplearn.Contract.IKeywordFragmentContract;
 import com.example.snaplearn.Model.Keyword;
+import com.example.snaplearn.Presenter.KeywordFragmentPresenter;
 import com.example.snaplearn.R;
 import com.example.snaplearn.databinding.FragmentKeywordBinding;
 import com.example.snaplearn.utils.Listener.IOnKeywordClick;
@@ -23,15 +29,20 @@ import com.google.android.material.tabs.TabLayoutMediator;
 import java.util.ArrayList;
 import java.util.List;
 
-public class KeywordFragment extends Fragment implements IOnKeywordClick {
+public class KeywordFragment extends Fragment implements IOnKeywordClick, IKeywordFragmentContract.View {
 
     private FragmentKeywordBinding binding;
     private KeywordAdapter keywordAdapter;
     private List<Keyword> keywordList = new ArrayList<>();
+    private List<Keyword> keywordListOriginal = new ArrayList<>();
+
     private ViewPager2 viewPager;
     private TabLayout tabLayout;
     private ViewPagerAdapter viewPagerAdapter;
-
+    private boolean tagRefreshEng = false;
+    private boolean tagRefreshViet = false;
+    private IKeywordFragmentContract.Presenter presenter;
+    private Keyword keyword = new Keyword.Builder().setEngMeaning("h").setEngSentence("h").setVietSentence("v").setVietMeaning("v").build();
     public KeywordFragment() {
         // Required empty public constructor
     }
@@ -39,7 +50,9 @@ public class KeywordFragment extends Fragment implements IOnKeywordClick {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        generateSampleData();
+        presenter = new KeywordFragmentPresenter(this);
+        presenter.LoadingKeyword();
+        //generateSampleData();
     }
 
     @Override
@@ -51,20 +64,50 @@ public class KeywordFragment extends Fragment implements IOnKeywordClick {
         binding.recycleViewKeyword.setLayoutManager(new LinearLayoutManager(getContext()));
         keywordAdapter = new KeywordAdapter(keywordList, this);
         binding.recycleViewKeyword.setAdapter(keywordAdapter);
+        binding.btnClose.setOnClickListener(v->{
+            binding.resultHistoryKw.setVisibility(View.GONE);
+        });
+        binding.btnRemove.setOnClickListener(v->{
 
+        });
         tabLayout = binding.tabLayout;
         viewPager = binding.viewPager;
-        viewPagerAdapter = new ViewPagerAdapter(this);
+        viewPagerAdapter = new ViewPagerAdapter(this, new Keyword.Builder().setEngSentence("").setEngMeaning("").setVietSentence("").setVietMeaning("").build());
         viewPager.setAdapter(viewPagerAdapter);
+        binding.txtBoxSearch.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
 
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+                keywordList.clear();
+                for (Keyword item: keywordListOriginal
+                     ) {
+                    String keywordText = item.getKeyWordText().toLowerCase();
+                    String searchText = binding.txtBoxSearch.getText().toString().toLowerCase();
+                    if(keywordText.startsWith(searchText))
+                        keywordList.add(item);
+                }
+                keywordAdapter.notifyDataSetChanged();
+            }
+        });
         new TabLayoutMediator(tabLayout, viewPager,
                 (tab, position) -> {
                     switch (position) {
                         case 0:
                             tab.setText("English");
+
                             break;
                         case 1:
                             tab.setText("Vietnamese");
+
                             break;
                     }
                 }
@@ -111,10 +154,12 @@ public class KeywordFragment extends Fragment implements IOnKeywordClick {
 
     @Override
     public void onKeywordClick(Keyword keyword) {
-        binding.resultHistoryKw.setVisibility(View.VISIBLE);
-
-        // Truyền dữ liệu sang fragment
         viewPagerAdapter.setKeyword(keyword);
+        this.keyword = keyword;
+        binding.resultHistoryKw.setVisibility(View.VISIBLE);
+        viewPagerAdapter = new ViewPagerAdapter(this,keyword);
+        viewPager.setAdapter(viewPagerAdapter);
+        // Truyền dữ liệu sang fragment
     }
 
     @Override
@@ -123,17 +168,29 @@ public class KeywordFragment extends Fragment implements IOnKeywordClick {
         binding = null;
     }
 
+    @Override
+    public void onLoadingKeywordSuccess(List<Keyword> keywordList) {
+        this.keywordList.addAll(keywordList);
+        this.keywordListOriginal.addAll(keywordList);
+        keywordAdapter.notifyDataSetChanged();
+    }
+
+    @Override
+    public void onLoadingKeywordFailed(Exception e) {
+        Toast.makeText(getContext(),"Load message failed", Toast.LENGTH_SHORT).show();
+        Log.e("keyword_fragment", e.getMessage());
+    }
+
     private static class ViewPagerAdapter extends FragmentStateAdapter {
 
-        private Keyword keyword = new Keyword.Builder().setEngMeaning("h").setEngSentence("h").setVietSentence("v").setVietMeaning("v").build();
-
-        public ViewPagerAdapter(@NonNull Fragment fragment) {
+        private Keyword keyword;
+        public ViewPagerAdapter(@NonNull Fragment fragment, Keyword keyword) {
             super(fragment);
+            this.keyword = keyword;
         }
 
         public void setKeyword(Keyword keyword) {
             this.keyword = keyword;
-            notifyDataSetChanged();
         }
 
         @NonNull

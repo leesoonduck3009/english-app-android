@@ -51,9 +51,6 @@ public class HistoryActivity extends AppCompatActivity {
         new TabLayoutMediator(tabLayout, viewPager, (tab, position) -> {
             switch (position) {
                 case 0:
-                    tab.setText("Paragraph");
-                    break;
-                case 1:
                     tab.setText("Keyword");
                     break;
             }
@@ -71,7 +68,6 @@ public class HistoryActivity extends AppCompatActivity {
         public Fragment createFragment(int position) {
             switch (position) {
                 case 0:
-                    return new ParagraphFragment();
                 case 1:
                     return new KeywordFragment();
                 default:
@@ -81,7 +77,7 @@ public class HistoryActivity extends AppCompatActivity {
 
         @Override
         public int getItemCount() {
-            return 2;
+            return 1;
         }
     }
 }

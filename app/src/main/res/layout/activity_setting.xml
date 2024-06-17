@@ -58,7 +58,7 @@
         app:layout_constraintVertical_bias="0.303" />
 
     <Button
-        android:id="@+id/btn_history"
+        android:id="@+id/btn_logout"
         android:layout_width="@dimen/_200sdp"
         android:layout_height="@dimen/_50sdp"
         android:backgroundTint="@color/gray"
@@ -73,7 +73,7 @@
         app:layout_constraintVertical_bias="0.823" />
 
     <LinearLayout
-        android:layout_width="@dimen/_260sdp"
+        android:layout_width="@dimen/_300sdp"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
         android:paddingLeft="@dimen/_15sdp"
@@ -90,17 +90,20 @@
             android:src="@drawable/globe_foreground"/>
 
         <EditText
+            android:id="@+id/edtTextMail"
             android:layout_marginLeft="@dimen/_5sdp"
-            android:layout_width="@dimen/_180sdp"
+            android:layout_width="match_parent"
+            android:layout_marginEnd="@dimen/_6sdp"
             android:layout_height="@dimen/_40sdp"
             android:fontFamily="@font/baloo_bhai_2_medium"
-            android:textSize="@dimen/_16sdp"
+            android:textSize="@dimen/_14sdp"
+            android:textColor="@color/black"
             android:background="@color/white"
             android:hint="email"/>
     </LinearLayout>
 
     <LinearLayout
-        android:layout_width="@dimen/_260sdp"
+        android:layout_width="@dimen/_300sdp"
         android:layout_height="wrap_content"
         android:background="@drawable/border_edit_text"
         android:gravity="left|center"
@@ -119,12 +122,15 @@
             android:src="@drawable/person_foreground" />
 
         <EditText
-            android:layout_width="@dimen/_180sdp"
+            android:id="@+id/edtTextUser"
+            android:layout_width="match_parent"
+            android:layout_marginEnd="@dimen/_6sdp"
             android:layout_height="@dimen/_40sdp"
             android:layout_marginLeft="@dimen/_5sdp"
             android:background="@color/white"
             android:fontFamily="@font/baloo_bhai_2_medium"
             android:hint="user"
-            android:textSize="@dimen/_16sdp" />
+            android:textColor="@color/black"
+            android:textSize="@dimen/_14sdp" />
     </LinearLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -7,6 +7,7 @@ import com.example.snaplearn.Service.Keyword.IKeywordService;
 import com.example.snaplearn.Service.Keyword.KeywordService;
 import com.example.snaplearn.Service.Paragraph.IParagraphService;
 import com.example.snaplearn.Service.Paragraph.ParagraphService;
+import com.google.firebase.auth.FirebaseAuth;
 
 public class ResultActivityPresenter implements IResultActivityContract.Presenter {
     private IResultActivityContract.View view;
@@ -40,6 +41,18 @@ public class ResultActivityPresenter implements IResultActivityContract.Presente
                     view.onSaveKeywordFailed(e);
                 else
                     view.onSaveKeywordSuccess(keyword);
+            }
+        });
+    }
+
+    @Override
+    public void saveParagraph(byte[] image,Paragraph paragraph) {
+        paragraph.setUserId(FirebaseAuth.getInstance().getCurrentUser().getUid());
+        paragraphService.upNewParagraph(image, paragraph, new IParagraphService.OperationParagraphListener() {
+            @Override
+            public void onFinishOperationParagraph(Paragraph paragraph, Exception e) {
+                if(e!=null)
+                    view.onSaveParagraphFail(e);
             }
         });
     }
