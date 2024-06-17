@@ -15,29 +15,33 @@ import androidx.fragment.app.FragmentActivity;
 import androidx.viewpager2.adapter.FragmentStateAdapter;
 import androidx.viewpager2.widget.ViewPager2;
 
+import com.example.snaplearn.Contract.IResultActivityContract;
 import com.example.snaplearn.Fragment.EnglishFragment;
 import com.example.snaplearn.Fragment.KeywordFragment;
 import com.example.snaplearn.Fragment.ParagraphFragment;
 import com.example.snaplearn.Fragment.VietnameseFragment;
+import com.example.snaplearn.Model.Paragraph;
+import com.example.snaplearn.Presenter.ResultActivityPresenter;
 import com.example.snaplearn.R;
 import com.example.snaplearn.databinding.ActivityMainBinding;
 import com.example.snaplearn.databinding.ActivityResultBinding;
+import com.example.snaplearn.utils.UriToByte;
 import com.google.android.material.tabs.TabLayout;
 import com.google.android.material.tabs.TabLayoutMediator;
 
-public class ResultActivity extends AppCompatActivity {
+public class ResultActivity extends AppCompatActivity implements IResultActivityContract.View {
     private ActivityResultBinding binding;
     private ViewPager2 viewPager;
     private TabLayout tabLayout;
     private ResultActivity.ViewPagerAdapter viewPagerAdapter;
-
+    private IResultActivityContract.Presenter presenter;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         EdgeToEdge.enable(this);
 
         binding = ActivityResultBinding.inflate(getLayoutInflater());
-
+        presenter = new ResultActivityPresenter(this);
         setContentView(binding.getRoot());
         ViewCompat.setOnApplyWindowInsetsListener(binding.main, (v, insets) -> {
             Insets systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars());
@@ -48,8 +52,10 @@ public class ResultActivity extends AppCompatActivity {
         if (getIntent().hasExtra("PHOTO_URI")) {
             String photoUriString = getIntent().getStringExtra("PHOTO_URI");
             Uri photoUri = Uri.parse(photoUriString);
+            byte[] image = UriToByte.convertUriToByteArray(getContentResolver(),photoUri);
             // Sử dụng photoUri để hiển thị ảnh trong imageView hoặc thực hiện xử lý khác
-            
+            loading();
+            presenter.detectImage(image);
             binding.ivResult.setImageURI(photoUri);
         }
         binding.btnBack.setOnClickListener(v->{
@@ -82,6 +88,16 @@ public class ResultActivity extends AppCompatActivity {
                     break;
             }
         }).attach();
+    }
+
+    @Override
+    public void onDetectImageSuccess(Paragraph paragraph) {
+
+    }
+
+    @Override
+    public void onDectectImageFail(Exception e) {
+
     }
 
     private static class ViewPagerAdapter extends FragmentStateAdapter {
