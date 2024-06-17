@@ -103,16 +103,7 @@
             android:layout_height="wrap_content"
             android:gravity="center"
             android:orientation="horizontal">
-            <Button
-                android:id="@+id/btn_remove"
-                android:layout_width="@dimen/_100sdp"
-                android:layout_height="@dimen/_50sdp"
-                android:layout_marginLeft="@dimen/_15sdp"
-                android:backgroundTint="@color/darkgreen"
-                android:fontFamily="@font/baloo_bhai_2_medium"
-                android:text="Remove"
-                android:textColor="@color/black"
-                android:textSize="@dimen/_14sdp" />
+
             <Button
                 android:id="@+id/btn_close"
                 android:layout_width="@dimen/_100sdp"

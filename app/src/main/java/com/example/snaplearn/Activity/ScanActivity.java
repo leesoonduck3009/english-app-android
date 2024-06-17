@@ -77,7 +77,6 @@ public class ScanActivity extends AppCompatActivity {
                         }
                     }
                 });
-
         // Đặt OnClickListener cho btnSelectPic
         binding.btnSelectPic.setOnClickListener(v -> {
             // Tạo một Intent để mở thư viện ảnh

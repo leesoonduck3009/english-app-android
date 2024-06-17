@@ -67,9 +67,7 @@ public class KeywordFragment extends Fragment implements IOnKeywordClick, IKeywo
         binding.btnClose.setOnClickListener(v->{
             binding.resultHistoryKw.setVisibility(View.GONE);
         });
-        binding.btnRemove.setOnClickListener(v->{
 
-        });
         tabLayout = binding.tabLayout;
         viewPager = binding.viewPager;
         viewPagerAdapter = new ViewPagerAdapter(this, new Keyword.Builder().setEngSentence("").setEngMeaning("").setVietSentence("").setVietMeaning("").build());
