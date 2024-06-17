@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -13,14 +14,22 @@
     tools:context=".Fragment.KeywordFragment">
 
     <!-- LinearLayout nằm ở giữa trên cùng -->
+
     <LinearLayout
+        android:id="@+id/linearLayout2"
         android:layout_width="@dimen/_290sdp"
         android:layout_height="wrap_content"
         android:layout_gravity="top|center_horizontal"
         android:background="@drawable/border_edit_text"
         android:gravity="left|center_vertical"
         android:orientation="horizontal"
-        android:paddingLeft="@dimen/_15sdp">
+        android:paddingLeft="@dimen/_15sdp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.015">
 
         <ImageView
             android:layout_width="@dimen/_40sdp"
@@ -36,12 +45,75 @@
             android:hint="search..."
             android:textSize="@dimen/_16sdp" />
     </LinearLayout>
+
     <androidx.recyclerview.widget.RecyclerView
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
         android:id="@+id/recycleViewKeyword"
-        android:layout_marginTop="@dimen/_5sdp"
-        />
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/_200sdp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.253" />
+
+    <LinearLayout
+        android:id="@+id/result_history_kw"
+        android:layout_width="@dimen/_270sdp"
+        android:layout_height="@dimen/_300sdp"
+        android:background="@drawable/border_notice"
+        android:gravity="top|center"
+        android:orientation="vertical"
+        android:visibility="visible"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <TextView
+            android:id="@+id/tv_keyword"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/_10sdp"
+            android:fontFamily="@font/baloo"
+            android:text="Keyword"
+            android:textColor="@color/black"
+            android:textSize="@dimen/_20sdp" />
+
+        <com.google.android.material.tabs.TabLayout
+            android:id="@+id/tabLayout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/white"
+            app:tabIndicatorAnimationMode="elastic"
+            app:tabIndicatorColor="@color/darkgreen"
+            app:tabIndicatorHeight="@dimen/_2sdp"
+            app:tabTextColor="@color/darkgreen" />
+
+        <androidx.viewpager2.widget.ViewPager2
+            android:id="@+id/viewPager"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/_150sdp" />
 
 
-</LinearLayout>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:orientation="horizontal">
+
+            <Button
+                android:id="@+id/btn_close"
+                android:layout_width="@dimen/_100sdp"
+                android:layout_height="@dimen/_50sdp"
+                android:layout_marginLeft="@dimen/_15sdp"
+                android:backgroundTint="@color/lightgreen"
+                android:fontFamily="@font/baloo_bhai_2_medium"
+                android:text="Close"
+                android:textColor="@color/black"
+                android:textSize="@dimen/_14sdp" />
+        </LinearLayout>
+    </LinearLayout>
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>

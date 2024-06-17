@@ -5,10 +5,48 @@
     android:layout_height="match_parent"
     tools:context=".Fragment.VietnameseFragment">
 
-    <!-- TODO: Update blank fragment layout -->
-    <TextView
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:text="Vietnamese" />
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:gravity="left|center"
+        android:paddingLeft="@dimen/_10sdp"
+        android:paddingTop="@dimen/_5sdp">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Giải thích"
+            android:textColor="@color/black"
+            android:textSize="@dimen/_14sdp"
+            android:fontFamily="@font/baloo"/>
+
+        <TextView
+            android:id="@+id/meaning_vietnamese"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Đây là.."
+            android:textColor="@color/black"
+            android:textSize="@dimen/_14sdp"
+            android:fontFamily="@font/baloo_bhai_2_medium"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Example"
+            android:layout_marginTop="@dimen/_5sdp"
+            android:textColor="@color/black"
+            android:textSize="@dimen/_14sdp"
+            android:fontFamily="@font/baloo"/>
+
+        <TextView
+            android:id="@+id/example_vietnamese"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Đây là"
+            android:textColor="@color/black"
+            android:textSize="@dimen/_14sdp"
+            android:fontFamily="@font/baloo_bhai_2_medium"/>
+    </LinearLayout>
 
 </FrameLayout>
