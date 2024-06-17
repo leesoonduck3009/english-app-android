@@ -9,6 +9,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.snaplearn.Model.Keyword;
 import com.example.snaplearn.databinding.ItemFragmentKeywordBinding;
+import com.example.snaplearn.utils.Listener.IOnKeywordClick;
 
 import java.util.List;
 
@@ -53,7 +54,5 @@ public class KeywordAdapter extends RecyclerView.Adapter<KeywordAdapter.KeywordV
         }
 
     }
-    interface IOnKeywordClick{
-        void onKeywordClick(Keyword keyword);
-    }
+
 }

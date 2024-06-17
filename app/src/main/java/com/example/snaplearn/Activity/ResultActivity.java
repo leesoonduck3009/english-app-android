@@ -2,7 +2,9 @@ package com.example.snaplearn.Activity;
 
 import android.net.Uri;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
+import android.widget.Toast;
 
 import androidx.activity.EdgeToEdge;
 import androidx.annotation.NonNull;
@@ -12,29 +14,39 @@ import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentActivity;
+import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.viewpager2.adapter.FragmentStateAdapter;
 import androidx.viewpager2.widget.ViewPager2;
 
+import com.example.snaplearn.Adapter.KeywordAdapter;
 import com.example.snaplearn.Contract.IResultActivityContract;
 import com.example.snaplearn.Fragment.EnglishFragment;
 import com.example.snaplearn.Fragment.KeywordFragment;
 import com.example.snaplearn.Fragment.ParagraphFragment;
 import com.example.snaplearn.Fragment.VietnameseFragment;
+import com.example.snaplearn.Model.Keyword;
 import com.example.snaplearn.Model.Paragraph;
 import com.example.snaplearn.Presenter.ResultActivityPresenter;
 import com.example.snaplearn.R;
 import com.example.snaplearn.databinding.ActivityMainBinding;
 import com.example.snaplearn.databinding.ActivityResultBinding;
+import com.example.snaplearn.utils.Listener.IOnKeywordClick;
 import com.example.snaplearn.utils.UriToByte;
 import com.google.android.material.tabs.TabLayout;
 import com.google.android.material.tabs.TabLayoutMediator;
 
-public class ResultActivity extends AppCompatActivity implements IResultActivityContract.View {
+import java.util.ArrayList;
+import java.util.List;
+
+public class ResultActivity extends AppCompatActivity implements IResultActivityContract.View, IOnKeywordClick {
     private ActivityResultBinding binding;
     private ViewPager2 viewPager;
     private TabLayout tabLayout;
     private ResultActivity.ViewPagerAdapter viewPagerAdapter;
     private IResultActivityContract.Presenter presenter;
+    private KeywordAdapter keywordAdapter;
+    private List<Keyword> listKeyword;
+    private Paragraph paragraph;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -49,25 +61,13 @@ public class ResultActivity extends AppCompatActivity implements IResultActivity
             return insets;
         });
 
-        if (getIntent().hasExtra("PHOTO_URI")) {
-            String photoUriString = getIntent().getStringExtra("PHOTO_URI");
-            Uri photoUri = Uri.parse(photoUriString);
-            byte[] image = UriToByte.convertUriToByteArray(getContentResolver(),photoUri);
-            // Sử dụng photoUri để hiển thị ảnh trong imageView hoặc thực hiện xử lý khác
-            loading();
-            presenter.detectImage(image);
-            binding.ivResult.setImageURI(photoUri);
-        }
         binding.btnBack.setOnClickListener(v->{
             finish();
         });
         binding.btnBackLoading.setOnClickListener(v->{
             finish();
         });
-        binding.btnWord1.setOnClickListener(v -> {
-            binding.overlay.setVisibility(View.VISIBLE);
-            binding.resultNotice.setVisibility(View.VISIBLE);
-        });
+
         binding.btnClose.setOnClickListener(v->{
             binding.overlay.setVisibility(View.GONE);
             binding.resultNotice.setVisibility(View.GONE);
@@ -77,6 +77,10 @@ public class ResultActivity extends AppCompatActivity implements IResultActivity
         viewPager = binding.viewPager;
         viewPagerAdapter = new ResultActivity.ViewPagerAdapter(this);
         viewPager.setAdapter(viewPagerAdapter);
+        listKeyword = new ArrayList<>();
+        keywordAdapter = new KeywordAdapter(listKeyword,this);
+        binding.recycleViewKeyword.setAdapter(keywordAdapter);
+        binding.recycleViewKeyword.setLayoutManager(new LinearLayoutManager(this));
 
         new TabLayoutMediator(tabLayout, viewPager, (tab, position) -> {
             switch (position) {
@@ -88,16 +92,37 @@ public class ResultActivity extends AppCompatActivity implements IResultActivity
                     break;
             }
         }).attach();
+
+        if (getIntent().hasExtra("PHOTO_URI")) {
+            String photoUriString = getIntent().getStringExtra("PHOTO_URI");
+            Uri photoUri = Uri.parse(photoUriString);
+            byte[] image = UriToByte.convertUriToByteArray(getContentResolver(),photoUri);
+            // Sử dụng photoUri để hiển thị ảnh trong imageView hoặc thực hiện xử lý khác
+            loading();
+            binding.ivResult.setImageURI(photoUri);
+            presenter.detectImage(image);
+        }
     }
 
     @Override
     public void onDetectImageSuccess(Paragraph paragraph) {
-
+        this.paragraph = paragraph;
+        listKeyword.addAll(paragraph.getKeywordInParagraph());
+        keywordAdapter.notifyDataSetChanged();
+        loadingSuccess();
     }
 
     @Override
     public void onDectectImageFail(Exception e) {
+        Log.e("result_error", e.getMessage());
+        Toast.makeText(getApplicationContext(), "Detect Image failed", Toast.LENGTH_SHORT).show();
+        finish();
+    }
 
+    @Override
+    public void onKeywordClick(Keyword keyword) {
+        binding.overlay.setVisibility(View.VISIBLE);
+        binding.resultNotice.setVisibility(View.VISIBLE);
     }
 
     private static class ViewPagerAdapter extends FragmentStateAdapter {

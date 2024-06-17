@@ -1,8 +1,10 @@
 package com.example.snaplearn.Model;
 
+import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.List;
 
-public class Paragraph {
+public class Paragraph implements Serializable {
     String paragraphId;
     String paragraphTittle;
     String paragraphUrl;
@@ -23,7 +25,9 @@ public class Paragraph {
         this.userId = builder.userId;
     }
 
-    public Paragraph(){}
+    public Paragraph(){
+        keywordInParagraph = new ArrayList<>();
+    }
     public String getParagraphId() {
         return paragraphId;
     }

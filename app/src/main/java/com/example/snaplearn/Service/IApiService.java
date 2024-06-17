@@ -15,6 +15,6 @@ public interface IApiService {
     @GET("/test")
     Call<ResponseInfo> getTest();
     @Multipart
-    @POST("/upload")
+    @POST("/detect")
     Call<HashMap<String,Object>> uploadImage(@Part MultipartBody.Part file);
 }

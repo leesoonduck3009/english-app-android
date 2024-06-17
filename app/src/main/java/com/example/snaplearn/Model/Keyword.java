@@ -1,6 +1,8 @@
 package com.example.snaplearn.Model;
 
-public class Keyword {
+import java.io.Serializable;
+
+public class Keyword implements Serializable {
     private String keyWordId;
     private String keyWordText;
     private String engMeaning;

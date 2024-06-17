@@ -1,5 +1,7 @@
 package com.example.snaplearn.Service.Paragraph;
 
+import android.util.Log;
+
 import com.example.snaplearn.Model.Keyword;
 import com.example.snaplearn.Model.Paragraph;
 import com.example.snaplearn.Service.IApiService;
@@ -7,6 +9,7 @@ import com.example.snaplearn.utils.RetrofitInstance;
 import com.example.snaplearn.utils.Storage;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.gson.internal.LinkedTreeMap;
 
 import java.util.HashMap;
 import java.util.List;
@@ -80,6 +83,7 @@ public class ParagraphService implements IParagraphService{
 
     @Override
     public void detectParagraph(byte[] image, OperationParagraphListener listener) {
+        initFirebase();
         RequestBody requestBody = RequestBody.create(image, MediaType.parse("image/*"));
         MultipartBody.Part body = MultipartBody.Part.createFormData("image", "temp_image", requestBody);
 
@@ -89,10 +93,10 @@ public class ParagraphService implements IParagraphService{
             public void onResponse(Call<HashMap<String, Object>> call, Response<HashMap<String, Object>> response) {
                 if (response.isSuccessful() && response.code() == 200) {
                     HashMap<String, Object> result = response.body();
-                    List<HashMap<String, Object>> paragraphs = (List<HashMap<String, Object>>) result.get("data");
+                    List<LinkedTreeMap<String,Object>> paragraphs = (List<LinkedTreeMap<String,Object>>) result.get("data");
                     Paragraph paragraph = new Paragraph();
                     paragraph.setUserId(auth.getCurrentUser().getUid());
-                    for (HashMap<String,Object> doc: paragraphs
+                    for (LinkedTreeMap<String,Object> doc: paragraphs
                          ) {
                         Keyword keyWord = new Keyword.Builder()
                                 .setKeyWordText(Objects.requireNonNull(doc.get("keyword")).toString())
@@ -105,6 +109,7 @@ public class ParagraphService implements IParagraphService{
                     }
                     listener.onFinishOperationParagraph(paragraph, null);
                 } else {
+                    Log.e("error", response.message());
                     listener.onFinishOperationParagraph(null, new Exception("Connection error"));
                 }
             }
