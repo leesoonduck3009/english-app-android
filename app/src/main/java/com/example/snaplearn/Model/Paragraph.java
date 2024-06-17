@@ -22,11 +22,14 @@ public class Paragraph {
         this.keywordInParagraph = builder.keywordInParagraph;
         this.userId = builder.userId;
     }
+
     public Paragraph(){}
     public String getParagraphId() {
         return paragraphId;
     }
-
+    public void addKeyword(Keyword keyword) {
+        this.keywordInParagraph.add(keyword);
+    }
     public void setParagraphId(String paragraphId) {
         this.paragraphId = paragraphId;
     }
