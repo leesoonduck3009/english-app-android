@@ -125,7 +125,7 @@ public class KeywordFragment extends Fragment implements IOnKeywordClick {
 
     private static class ViewPagerAdapter extends FragmentStateAdapter {
 
-        private Keyword keyword;
+        private Keyword keyword = new Keyword.Builder().setEngMeaning("h").setEngSentence("h").setVietSentence("v").setVietMeaning("v").build();
 
         public ViewPagerAdapter(@NonNull Fragment fragment) {
             super(fragment);

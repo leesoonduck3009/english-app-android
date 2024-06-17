@@ -52,7 +52,6 @@ public class KeywordAdapter extends RecyclerView.Adapter<KeywordAdapter.KeywordV
                 onKeywordClick.onKeywordClick(keyword);
             });
         }
-
     }
 
 }

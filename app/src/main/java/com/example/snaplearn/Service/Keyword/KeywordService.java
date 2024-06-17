@@ -1,6 +1,7 @@
 package com.example.snaplearn.Service.Keyword;
 
 import com.example.snaplearn.Model.Keyword;
+import com.example.snaplearn.utils.ExistedItemException;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
@@ -22,15 +23,32 @@ public class KeywordService implements IKeywordService{
     @Override
     public void saveKeyword(Keyword keyword, onFinishEditKeywordListener listener) {
         initFirebase();
-        db.collection(Keyword.COLLECTION_NAME).add(keyword).addOnCompleteListener(task -> {
-            if(task.isSuccessful()){
-                keyword.setKeyWordId(task.getResult().getId());
-                listener.onSaveKeyword(keyword,null);
-            }
-            else{
-                listener.onSaveKeyword(null,task.getException());
-            }
-        });
+        keyword.setUserId(auth.getCurrentUser().getUid());
+        db.collection(Keyword.COLLECTION_NAME).whereEqualTo(Keyword.USER_ID_FIELD,keyword.getUserId()).whereEqualTo(Keyword.KEY_WORD_TEXT_FIELD,keyword.getKeyWordText())
+                        .get().addOnCompleteListener(taskKeyword -> {
+                            if(taskKeyword.isSuccessful())
+                            {
+                                if(!taskKeyword.getResult().isEmpty()){
+                                    listener.onSaveKeyword(null,new ExistedItemException("Keyword already existed"));
+
+                                }
+                                else{
+                                    db.collection(Keyword.COLLECTION_NAME).add(keyword).addOnCompleteListener(task -> {
+                                        if(task.isSuccessful()){
+                                            keyword.setKeyWordId(task.getResult().getId());
+                                            listener.onSaveKeyword(keyword,null);
+                                        }
+                                        else{
+                                            listener.onSaveKeyword(null,task.getException());
+                                        }
+                                    });
+                                }
+                            }
+                            else{
+                                listener.onSaveKeyword(null,taskKeyword.getException());
+                            }
+                });
+
     }
 
     @Override
